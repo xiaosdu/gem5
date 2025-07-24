@@ -42,6 +42,7 @@
 #include "arch/riscv/mmu.hh"
 #include "arch/riscv/pagetable.hh"
 #include "arch/riscv/pmp.hh"
+#include "arch/riscv/mtt.hh"
 #include "arch/riscv/pcstate.hh"
 #include "arch/riscv/regs/float.hh"
 #include "arch/riscv/regs/int.hh"

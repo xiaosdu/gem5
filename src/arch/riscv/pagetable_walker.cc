@@ -722,6 +722,12 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
     
     // we should implement our MTT checker here.
 
+    if (fault == NoFault)
+    {
+        fault = walker->mtt->walkMTT(read->req, BaseMMU::Read,
+                RiscvISA::PrivilegeMode::PRV_S, tc, entry.vaddr);
+    }
+
     if (fault == NoFault) {
         fault = walker->pma->check(read->req, BaseMMU::Read, entry.vaddr);
     }
@@ -739,6 +745,12 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
 
                 fault = walker->pmp->pmpCheck(read->req,
                             BaseMMU::Write, pmode, tc, entry.vaddr);
+                
+                if (fault == NoFault)
+                {
+                    fault = walker->mtt->walkMTT(read->req, BaseMMU::Write,
+                            pmode, tc, entry.vaddr);
+                }
 
                 if (fault == NoFault) {
                     fault = walker->pma->check(read->req,
@@ -885,6 +897,12 @@ Walker::WalkerState::stepWalkGStage(PacketPtr &write)
     fault = walker->pmp->pmpCheck(read->req, BaseMMU::Read,
                     RiscvISA::PrivilegeMode::PRV_S, tc, entry.vaddr);
 
+    if (fault == NoFault)
+    {
+        fault = walker->mtt->walkMTT(read->req, BaseMMU::Read,
+                RiscvISA::PrivilegeMode::PRV_S, tc, entry.vaddr);
+    }
+
     if (fault == NoFault) {
         fault = walker->pma->check(read->req, BaseMMU::Read, entry.vaddr);
     }
@@ -902,6 +920,12 @@ Walker::WalkerState::stepWalkGStage(PacketPtr &write)
 
                 fault = walker->pmp->pmpCheck(read->req,
                             BaseMMU::Write, pmode, tc, entry.vaddr);
+
+                if (fault == NoFault)
+                {
+                    fault = walker->mtt->walkMTT(read->req, BaseMMU::Write,
+                            pmode, tc, entry.vaddr);
+                }
 
                 if (fault == NoFault) {
                     fault = walker->pma->check(read->req,
@@ -1126,6 +1150,12 @@ Walker::WalkerState::recvPacket(PacketPtr pkt)
             // timingFault will be NoFault if pmp checks are
             // passed, otherwise an address fault will be returned.
             timingFault = walker->pmp->pmpCheck(req, mode, pmode, tc);
+
+            if (timingFault == NoFault)
+            {
+                timingFault = walker->mtt->walkMTT(req, mode,
+                        pmode, tc);
+            }
 
             if (timingFault == NoFault) {
                 timingFault = walker->pma->check(req, mode);

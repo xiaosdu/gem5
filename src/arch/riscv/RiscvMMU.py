@@ -38,6 +38,7 @@
 from m5.objects.BaseMMU import BaseMMU
 from m5.objects.PMAChecker import PMAChecker
 from m5.objects.PMP import PMP
+from m5.objects.MTT import MTT
 from m5.objects.RiscvTLB import RiscvTLB
 from m5.params import *
 
@@ -51,6 +52,7 @@ class RiscvMMU(BaseMMU):
     dtb = RiscvTLB(entry_type="data")
     pma_checker = Param.BasePMAChecker(PMAChecker(), "PMA Checker")
     pmp = Param.PMP(PMP(), "Physical Memory Protection Unit")
+    mtt = Param.MTT(MTT(), "MTT Checker")
 
     @classmethod
     def walkerPorts(cls):

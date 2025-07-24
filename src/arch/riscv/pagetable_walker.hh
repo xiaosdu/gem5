@@ -45,6 +45,7 @@
 #include "arch/riscv/pagetable.hh"
 #include "arch/riscv/pma_checker.hh"
 #include "arch/riscv/pmp.hh"
+#include "arch/riscv/mtt.hh"
 #include "arch/riscv/tlb.hh"
 #include "base/statistics.hh"
 #include "base/types.hh"
@@ -210,6 +211,7 @@ namespace RiscvISA
         System * sys;
         BasePMAChecker * pma;
         PMP * pmp;
+        MTT * mtt;
         RequestorID requestorId;
 
         // The number of outstanding walks that can be squashed per cycle.
@@ -253,6 +255,7 @@ namespace RiscvISA
             funcState(this, NULL, NULL, true), tlb(NULL), sys(params.system),
             pma(params.pma_checker),
             pmp(params.pmp),
+            mtt(params.mtt),
             requestorId(sys->getRequestorId(this)),
             numSquashable(params.num_squash_per_cycle),
             startWalkWrapperEvent([this]{ startWalkWrapper(); }, name()),

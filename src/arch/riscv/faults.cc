@@ -35,6 +35,7 @@
 #include "arch/riscv/isa.hh"
 #include "arch/riscv/mmu.hh"
 #include "arch/riscv/pmp.hh"
+#include "arch/riscv/mtt.hh"
 #include "arch/riscv/regs/misc.hh"
 #include "arch/riscv/utility.hh"
 #include "cpu/base.hh"

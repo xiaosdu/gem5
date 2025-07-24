@@ -43,6 +43,7 @@
 #include "arch/riscv/page_size.hh"
 #include "arch/riscv/pma_checker.hh"
 #include "arch/riscv/pmp.hh"
+#include "arch/riscv/mtt.hh"
 #include "arch/riscv/tlb.hh"
 
 #include "params/RiscvMMU.hh"
@@ -56,6 +57,7 @@ class MMU : public BaseMMU
 {
   public:
     BasePMAChecker *pma;
+    std::unique_ptr<MTT> mtt;
 
     MMU(const RiscvMMUParams &p)
       : BaseMMU(p), pma(p.pma_checker)

@@ -1,9 +1,5 @@
-# -*- mode:python -*-
-
-# Copyright (c) 2007 MIPS Technologies, Inc.
-# Copyright (c) 2020 Barkhausen Institut
-# Copyright (c) 2021 Huawei International
-# All rights reserved.
+# Copyright (c) 2025 Shandong University
+# All Rights Reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -28,38 +24,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from m5.objects.BaseTLB import BaseTLB
-from m5.objects.ClockedObject import ClockedObject
 from m5.params import *
 from m5.proxy import *
+from m5.SimObject import SimObject
 
 
-class RiscvPagetableWalker(ClockedObject):
-    type = "RiscvPagetableWalker"
-    cxx_class = "gem5::RiscvISA::Walker"
-    cxx_header = "arch/riscv/pagetable_walker.hh"
-
-    port = RequestPort("Port for the hardware table walker")
-    system = Param.System(Parent.any, "system object")
-    num_squash_per_cycle = Param.Unsigned(
-        4, "Number of outstanding walks that can be squashed per cycle"
-    )
-    # Grab the pma_checker from the MMU
-    pma_checker = Param.BasePMAChecker(Parent.any, "PMA Checker")
-    pmp = Param.PMP(Parent.any, "PMP")
-    mtt = Param.MTT(Parent.any, "MTT Checker")
-
-
-class RiscvTLB(BaseTLB):
-    type = "RiscvTLB"
-    cxx_class = "gem5::RiscvISA::TLB"
-    cxx_header = "arch/riscv/tlb.hh"
-
-    size = Param.Int(64, "TLB size")
-    walker = Param.RiscvPagetableWalker(
-        RiscvPagetableWalker(), "page table walker"
-    )
-    # Grab the pma_checker from the MMU
-    pma_checker = Param.BasePMAChecker(Parent.any, "PMA Checker")
-    pmp = Param.PMP(Parent.any, "Physical Memory Protection Unit")
-    mtt = Param.MTT(Parent.any, "MTT Checker")
+class MTT(SimObject):
+    type = "MTT"
+    cxx_header = "arch/riscv/mtt.hh"
+    cxx_class = "gem5::RiscvISA::MTT"

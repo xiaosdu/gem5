@@ -115,6 +115,7 @@ class TLB : public BaseTLB
   public:
     BasePMAChecker *pma;
     PMP *pmp;
+    MTT *mtt;
 
   public:
     typedef RiscvTLBParams Params;
