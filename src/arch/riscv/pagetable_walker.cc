@@ -719,6 +719,8 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
     // walks is S mode according to specs
     fault = walker->pmp->pmpCheck(read->req, BaseMMU::Read,
                     RiscvISA::PrivilegeMode::PRV_S, tc, entry.vaddr);
+    
+    // we should implement our MTT checker here.
 
     if (fault == NoFault) {
         fault = walker->pma->check(read->req, BaseMMU::Read, entry.vaddr);

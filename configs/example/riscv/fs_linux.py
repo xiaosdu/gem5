@@ -206,7 +206,7 @@ elif not args.bootloader:
     system.workload.object_file = args.kernel
 else:
     system.workload = RiscvBootloaderKernelWorkload(**workload_args)
-    system.workload.bootloader_filename = args.bootloader
+    system.workload.bootloader_filename = args.bootloader[0]
     system.workload.object_file = args.kernel
 
 system.iobus = IOXBar()

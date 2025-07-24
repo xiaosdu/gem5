@@ -281,6 +281,7 @@ const std::array<const char *, NUM_MISCREGS> MiscRegNames = {{
     [MISCREG_HPMCOUNTER31H]  = "HPMCOUNTER31H",
 
     [MISCREG_JVT] = "JVT",
+    [MISCREG_MTTP] = "MTTP",
 
     [MISCREG_FFLAGS_EXE]    = "FFLAGS_EXE",
 }};
@@ -657,6 +658,10 @@ ISA::readMiscReg(RegIndex idx)
         {
             return readMiscRegNoEffect(MISCREG_FFLAGS) & FFLAGS_MASK;
         }
+      case MISCREG_MTTP:
+        {
+            return readMiscRegNoEffect(MISCREG_MTTP);
+        }
 
       default:
         // Try reading HPM counters
@@ -960,6 +965,11 @@ ISA::setMiscReg(RegIndex idx, RegVal val)
             }
             break;
 
+          case MISCREG_MTTP:
+            {
+                setMiscRegNoEffect(idx, rvSext(val));
+            }
+            break;
           case MISCREG_FFLAGS_EXE:
             {
                 RegVal new_val = readMiscRegNoEffect(MISCREG_FFLAGS);

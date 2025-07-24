@@ -291,6 +291,7 @@ enum MiscRegIndex
     MISCREG_HPMCOUNTER30H,
     MISCREG_HPMCOUNTER31H,
     MISCREG_JVT,
+    MISCREG_MTTP,
 
     NUM_PHYS_MISCREGS,
     MISCREG_FFLAGS_EXE = NUM_PHYS_MISCREGS,
@@ -541,6 +542,8 @@ enum CSRIndex
     CSR_MNSTATUS     = 0x744,
 
     CSR_JVT          = 0x017,
+
+    CSR_MTTP        = 0x3f0, 
 
     // H-extension (RV64) CSRs
 
@@ -1239,6 +1242,9 @@ const std::unordered_map<int, CSRMetadata> CSRData = {
 
     {CSR_JVT,
         {"jvt", MISCREG_JVT, rvTypeFlags(RV64, RV32), isaExtsFlags()}},
+    
+    {CSR_MTTP,
+        {"mttp", MISCREG_MTTP, rvTypeFlags(RV64, RV32), isaExtsFlags()}},
 
     // H-extension CSR -> MISCREG mappings
     {CSR_MTINST,
@@ -1453,6 +1459,12 @@ BitUnion64(JVT)
     Bitfield<63,6> base;
     Bitfield<5,0> mode;
 EndBitUnion(JVT)
+
+BitUnion64(MTTP)
+    Bitfield<63,60> mode;
+    Bitfield<59,44> sdid;
+    Bitfield<43,0> ppn;
+EndBitUnion(MTTP)
 
 const off_t MXL_OFFSETS[enums::Num_RiscvType] = {
     [RV32] = (sizeof(uint32_t) * 8 - 2),
